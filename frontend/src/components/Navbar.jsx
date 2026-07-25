@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const isAuthenticated = () => {
+    return !!(localStorage.getItem('token') || localStorage.getItem('user'));
+  };
+
+  const handleCtaClick = (e, targetPath = '/dashboard') => {
+    e.preventDefault();
+    if (isAuthenticated()) {
+      navigate(targetPath);
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full glass-effect border-b border-outline-variant/30 px-container-padding h-20 flex justify-between items-center">
@@ -32,18 +46,30 @@ export default function Navbar() {
       </nav>
 
       <div className="flex items-center gap-4">
-        <Link
-          to="/login"
-          className="hidden sm:inline-block px-6 py-2.5 font-label-md text-label-md text-primary hover:bg-surface-variant rounded-lg transition-colors"
-        >
-          Login
-        </Link>
-        <Link
-          to="/dashboard"
-          className="px-6 py-2.5 bg-primary-container text-white font-label-md text-label-md rounded-lg hover:brightness-90 transition-all active:scale-95 shadow-sm inline-block"
-        >
-          Get Started
-        </Link>
+        {isAuthenticated() ? (
+          <button
+            onClick={(e) => handleCtaClick(e, '/dashboard')}
+            className="px-6 py-2.5 bg-primary text-white font-label-md text-label-md rounded-xl font-bold hover:brightness-90 transition-all active:scale-95 shadow-sm inline-block"
+          >
+            Open Dashboard
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="hidden sm:inline-block px-6 py-2.5 font-label-md text-label-md text-primary hover:bg-surface-variant rounded-xl transition-colors font-bold"
+            >
+              Sign In
+            </Link>
+            <button
+              onClick={(e) => handleCtaClick(e, '/login')}
+              className="px-6 py-2.5 bg-primary text-white font-label-md text-label-md rounded-xl font-bold hover:brightness-90 transition-all active:scale-95 shadow-sm inline-block"
+            >
+              Get Started
+            </button>
+          </>
+        )}
+
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="lg:hidden p-2 text-on-surface-variant hover:text-primary"
@@ -96,7 +122,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="px-6 py-2.5 font-label-md text-label-md text-primary hover:bg-surface-variant rounded-lg transition-colors w-full text-left inline-block"
           >
-            Login
+            Sign In
           </Link>
         </div>
       )}

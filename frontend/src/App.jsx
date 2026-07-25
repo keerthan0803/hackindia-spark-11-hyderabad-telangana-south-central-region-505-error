@@ -1,6 +1,10 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import ErrorBoundary from './components/ErrorBoundary';
+import ProtectedRoute from './components/ProtectedRoute';
+import AppLayout from './components/AppLayout';
+
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -14,27 +18,22 @@ import Settings from './pages/Settings';
 import Help from './pages/Help';
 
 export default function App() {
-  const location = useLocation();
-  const hideNavbar =
-    location.pathname === '/login' ||
-    location.pathname === '/signup' ||
-    location.pathname === '/report' ||
-    location.pathname === '/dashboard' ||
-    location.pathname === '/processing' ||
-    location.pathname === '/report-details' ||
-    location.pathname === '/agent-details' ||
-    location.pathname === '/history' ||
-    location.pathname === '/settings' ||
-    location.pathname === '/help';
-
   return (
-    <div className="min-h-screen bg-[#faf8ff] text-[#191b23] flex flex-col font-sans">
-      {!hideNavbar && <Navbar />}
-      <main className="flex-1 w-full">
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+    <ErrorBoundary>
+      <Routes>
+        {/* Public Full-Width Pages */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+
+        {/* Protected Enterprise Portal Wrapped in Single Persistent Layout */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/processing" element={<Processing />} />
           <Route path="/report" element={<Report />} />
@@ -43,8 +42,11 @@ export default function App() {
           <Route path="/history" element={<AuditHistory />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/help" element={<Help />} />
-        </Routes>
-      </main>
-    </div>
+        </Route>
+
+        {/* Catch-all Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </ErrorBoundary>
   );
 }

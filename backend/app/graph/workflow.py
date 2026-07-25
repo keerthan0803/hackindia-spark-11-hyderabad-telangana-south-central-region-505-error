@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, START, END
 from app.graph.state import AuditState
 from app.graph.nodes import (
     run_financial_node,
@@ -17,14 +17,18 @@ workflow.add_node("market", run_market_node)
 workflow.add_node("security", run_security_node)
 workflow.add_node("coordinator", run_coordinator_node)
 
-# Set entry point
-workflow.set_entry_point("financial")
+# Parallel Fan-Out: Connect START directly to all 4 sub-agents
+workflow.add_edge(START, "financial")
+workflow.add_edge(START, "legal")
+workflow.add_edge(START, "market")
+workflow.add_edge(START, "security")
 
-# Edge connections
-workflow.add_edge("financial", "legal")
-workflow.add_edge("legal", "market")
-workflow.add_edge("market", "security")
+# Fan-In: All sub-agents converge on the Coordinator Agent
+workflow.add_edge("financial", "coordinator")
+workflow.add_edge("legal", "coordinator")
+workflow.add_edge("market", "coordinator")
 workflow.add_edge("security", "coordinator")
+
 workflow.add_edge("coordinator", END)
 
 app_graph = workflow.compile()

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function ReportDetails() {
   const navigate = useNavigate();
@@ -30,258 +30,160 @@ export default function ReportDetails() {
   };
 
   return (
-    <div className="bg-surface text-on-surface min-h-screen flex flex-col justify-between font-sans">
-      {/* Navigation Bar */}
-      <header className="bg-surface border-b border-outline-variant shadow-sm sticky top-0 z-50 flex justify-between items-center px-container-padding h-20 w-full">
-        <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-3xl">security</span>
-            <h1 className="font-headline-md text-headline-md font-bold text-primary">Adversarial Auditor</h1>
-          </Link>
+    <div className="space-y-6 pb-12 max-w-6xl mx-auto">
+      {/* Header Status */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-outline-variant/30 custom-shadow">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+            <span className="text-[10px] font-bold text-secondary uppercase tracking-wider">Live Agent Mesh Active</span>
+          </div>
+          <h2 className="font-headline-lg text-2xl font-bold text-on-surface">Live Topological Execution</h2>
+          <p className="text-xs text-on-surface-variant">
+            Target Asset: <span className="font-bold text-on-surface">Q3_Financial_Forecast_v2.pdf</span>
+          </p>
         </div>
-        <div className="hidden md:flex gap-6 items-center">
-          <nav className="flex gap-8">
-            <Link className="text-on-surface-variant font-label-md hover:text-primary transition-colors" to="/dashboard">
-              Dashboard
-            </Link>
-            <Link className="text-on-surface-variant font-label-md hover:text-primary transition-colors" to="/history">
-              Audit History
-            </Link>
-            <Link className="text-primary font-bold font-label-md" to="/report-details">
-              AI Agents
-            </Link>
-            <Link className="text-on-surface-variant font-label-md hover:text-primary transition-colors" to="/report">
-              Risk Reports
-            </Link>
-            <Link className="text-on-surface-variant font-label-md hover:text-primary transition-colors" to="/settings">
-              Settings
-            </Link>
-          </nav>
-          <div className="h-8 w-px bg-outline-variant"></div>
+
+        <div className="flex items-center gap-4">
+          <div className="bg-surface px-5 py-2 rounded-xl border border-outline-variant/40 text-center">
+            <p className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest">Elapsed Time</p>
+            <p className="font-mono text-xl font-bold text-primary">{formatTime(seconds)}</p>
+          </div>
           <button
             onClick={() => navigate('/report')}
-            className="px-6 py-2.5 bg-primary-container text-white rounded-lg font-bold text-sm shadow-md hover:bg-primary transition-all flex items-center gap-2"
+            className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl shadow-md hover:bg-on-primary-fixed-variant transition-colors flex items-center gap-1.5"
           >
             <span className="material-symbols-outlined text-sm">summarize</span>
-            View Executive Report
+            <span>View Executive Report</span>
           </button>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-container-padding py-10 flex-grow w-full">
-        {/* Header Status */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-secondary pulse-soft"></span>
-              <span className="text-xs font-bold text-secondary uppercase tracking-wider">Live Agent Mesh Active</span>
-            </div>
-            <h2 className="font-headline-lg text-3xl font-bold text-on-surface">Live Audit Execution</h2>
-            <p className="text-on-surface-variant text-sm mt-1">
-              Target Asset: <span className="font-bold text-on-surface">Q3_Financial_Forecast_v2.pdf</span>
-            </p>
-          </div>
+      {/* SVG Topological Node Visualization Canvas */}
+      <div className="bg-white rounded-2xl border border-outline-variant/40 custom-shadow p-8 text-center space-y-4">
+        <h3 className="font-bold text-sm text-on-surface">LangGraph StateGraph Topological Mesh</h3>
+        <p className="text-xs text-on-surface-variant">Parallel sub-agent fan-out processing with live vector feedback</p>
 
-          <div className="flex items-center gap-4">
-            <div className="bg-white px-6 py-3 rounded-xl border border-outline-variant/40 custom-shadow text-center">
-              <p className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Elapsed Time</p>
-              <p className="font-mono text-2xl font-bold text-primary">{formatTime(seconds)}</p>
-            </div>
-            <button
-              onClick={() => navigate('/report')}
-              className="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-on-primary-fixed-variant transition-colors shadow-md flex items-center gap-2"
-            >
-              <span className="material-symbols-outlined text-sm">analytics</span>
-              Open Report Summary
-            </button>
-          </div>
-        </div>
+        {/* SVG Graph Canvas */}
+        <div className="relative w-full max-w-3xl mx-auto h-72 bg-surface rounded-2xl border border-outline-variant/30 overflow-hidden flex items-center justify-center p-6">
+          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <line x1="15%" y1="50%" x2="50%" y2="20%" stroke="#004ac6" strokeWidth="2" strokeDasharray="6 6" className="marching-ants" />
+            <line x1="15%" y1="50%" x2="50%" y2="40%" stroke="#7c3aed" strokeWidth="2" strokeDasharray="6 6" className="marching-ants" />
+            <line x1="15%" y1="50%" x2="50%" y2="60%" stroke="#d97706" strokeWidth="2" strokeDasharray="6 6" className="marching-ants" />
+            <line x1="15%" y1="50%" x2="50%" y2="80%" stroke="#ba1a1a" strokeWidth="2" strokeDasharray="6 6" className="marching-ants" />
 
-        {/* Live SVG Marching-Ants Architecture Canvas */}
-        <div className="bg-white rounded-2xl border border-outline-variant/30 custom-shadow p-8 mb-10 overflow-hidden relative">
-          <h3 className="font-headline-md text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">hub</span>
-            Multi-Agent Neural Mesh Topology
-          </h3>
+            <line x1="50%" y1="20%" x2="85%" y2="50%" stroke="#004ac6" strokeWidth="2" />
+            <line x1="50%" y1="40%" x2="85%" y2="50%" stroke="#7c3aed" strokeWidth="2" />
+            <line x1="50%" y1="60%" x2="85%" y2="50%" stroke="#d97706" strokeWidth="2" />
+            <line x1="50%" y1="80%" x2="85%" y2="50%" stroke="#ba1a1a" strokeWidth="2" />
+          </svg>
 
-          <div className="relative h-64 bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-hidden flex items-center justify-center">
-            {/* SVG Connecting Lines */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none">
-              <line x1="20%" y1="50%" x2="50%" y2="50%" stroke="#2563EB" strokeWidth="2" className="animate-ants" />
-              <line x1="50%" y1="50%" x2="80%" y2="25%" stroke="#006E2D" strokeWidth="2" className="animate-ants" />
-              <line x1="50%" y1="50%" x2="80%" y2="75%" stroke="#BA1A1A" strokeWidth="2" className="animate-ants" />
-            </svg>
-
-            {/* Ingestion Node */}
-            <div className="absolute left-[15%] top-1/2 -translate-y-1/2 bg-white border-2 border-primary p-4 rounded-xl shadow-lg text-center">
-              <span className="material-symbols-outlined text-primary text-2xl">description</span>
-              <p className="text-xs font-bold text-on-surface mt-1">PDF Ingestion</p>
+          {/* Node Overlay HTML */}
+          <div className="relative z-10 flex justify-between items-center w-full max-w-2xl px-4">
+            {/* Start Node */}
+            <div className="w-14 h-14 bg-white border-2 border-primary text-primary rounded-full flex flex-col items-center justify-center font-bold text-[10px] shadow-md">
+              <span className="material-symbols-outlined text-sm">upload_file</span>
+              <span>Input</span>
             </div>
 
-            {/* Central Coordinator */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white p-6 rounded-2xl shadow-xl text-center z-10">
-              <span className="material-symbols-outlined text-3xl">psychology</span>
-              <p className="text-xs font-black uppercase tracking-wider mt-1">Coordinator AI</p>
-              <p className="text-[10px] opacity-80">Orchestrating 4 Sub-Agents</p>
+            {/* Middle Parallel Sub-Agent Nodes */}
+            <div className="space-y-3">
+              <div
+                onClick={() => handleIsolateNode('financial')}
+                className={`w-32 px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center justify-between cursor-pointer transition-all ${
+                  isolatedNodes.includes('financial') ? 'bg-blue-600 text-white shadow-lg' : 'bg-white border-blue-200 text-blue-700 shadow-sm'
+                }`}
+              >
+                <span>Financial Node</span>
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+              </div>
+
+              <div
+                onClick={() => handleIsolateNode('legal')}
+                className={`w-32 px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center justify-between cursor-pointer transition-all ${
+                  isolatedNodes.includes('legal') ? 'bg-purple-600 text-white shadow-lg' : 'bg-white border-purple-200 text-purple-700 shadow-sm'
+                }`}
+              >
+                <span>Legal Node</span>
+                <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+              </div>
+
+              <div
+                onClick={() => handleIsolateNode('market')}
+                className={`w-32 px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center justify-between cursor-pointer transition-all ${
+                  isolatedNodes.includes('market') ? 'bg-amber-600 text-white shadow-lg' : 'bg-white border-amber-200 text-amber-700 shadow-sm'
+                }`}
+              >
+                <span>Market Node</span>
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              </div>
+
+              <div
+                onClick={() => handleIsolateNode('security')}
+                className={`w-32 px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center justify-between cursor-pointer transition-all ${
+                  isolatedNodes.includes('security') ? 'bg-red-600 text-white shadow-lg' : 'bg-white border-red-200 text-red-700 shadow-sm'
+                }`}
+              >
+                <span>Security Node</span>
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+              </div>
             </div>
 
-            {/* Sub-Agent Node 1 */}
-            <div className="absolute right-[15%] top-[20%] bg-white border-2 border-secondary p-3 rounded-xl shadow-lg text-center">
-              <span className="material-symbols-outlined text-secondary text-xl">payments</span>
-              <p className="text-[10px] font-bold text-on-surface">Financial Agent</p>
-            </div>
-
-            {/* Sub-Agent Node 2 */}
-            <div className="absolute right-[15%] bottom-[20%] bg-white border-2 border-error p-3 rounded-xl shadow-lg text-center">
-              <span className="material-symbols-outlined text-error text-xl">shield_lock</span>
-              <p className="text-[10px] font-bold text-on-surface">Security Agent</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Live Sub-Agents Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-10">
-          {/* Financial Agent Card */}
-          <div className="bg-white p-6 rounded-xl border border-outline-variant/30 custom-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="p-2 bg-blue-100 text-primary rounded-lg material-symbols-outlined text-xl">
-                  payments
-                </span>
-                <span className="text-xs font-bold text-secondary flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-secondary"></span> 85% Active
-                </span>
-              </div>
-              <h4 className="font-bold text-on-surface text-base mb-1">Financial Agent</h4>
-              <p className="text-xs text-on-surface-variant mb-4">Auditing P&L multiples & growth projections.</p>
-            </div>
-            <div className="space-y-3 pt-3 border-t border-outline-variant/20">
-              <div className="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: '85%' }}></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => navigate('/agent-details')}
-                  className="text-xs font-bold text-primary hover:underline"
-                >
-                  View Details
-                </button>
-                <button
-                  onClick={() => handleIsolateNode('Financial')}
-                  className="text-xs text-on-surface-variant hover:text-error"
-                >
-                  {isolatedNodes.includes('Financial') ? 'Unisolate' : 'Isolate Node'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Legal Agent Card */}
-          <div className="bg-white p-6 rounded-xl border border-outline-variant/30 custom-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="p-2 bg-purple-100 text-purple-600 rounded-lg material-symbols-outlined text-xl">
-                  gavel
-                </span>
-                <span className="text-xs font-bold text-primary-container flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span> 40% Active
-                </span>
-              </div>
-              <h4 className="font-bold text-on-surface text-base mb-1">Legal Agent</h4>
-              <p className="text-xs text-on-surface-variant mb-4">Screening GDPR and regulatory compliance clauses.</p>
-            </div>
-            <div className="space-y-3 pt-3 border-t border-outline-variant/20">
-              <div className="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                <div className="bg-primary-container h-full rounded-full" style={{ width: '40%' }}></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => navigate('/report')}
-                  className="text-xs font-bold text-primary hover:underline"
-                >
-                  View Details
-                </button>
-                <button
-                  onClick={() => handleIsolateNode('Legal')}
-                  className="text-xs text-on-surface-variant hover:text-error"
-                >
-                  {isolatedNodes.includes('Legal') ? 'Unisolate' : 'Isolate Node'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Market Agent Card */}
-          <div className="bg-white p-6 rounded-xl border border-outline-variant/30 custom-shadow flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="p-2 bg-amber-100 text-amber-600 rounded-lg material-symbols-outlined text-xl">
-                  trending_up
-                </span>
-                <span className="text-xs font-bold text-secondary flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-secondary"></span> 100% Done
-                </span>
-              </div>
-              <h4 className="font-bold text-on-surface text-base mb-1">Market Agent</h4>
-              <p className="text-xs text-on-surface-variant mb-4">Benchmarking competitor market valuation data.</p>
-            </div>
-            <div className="space-y-3 pt-3 border-t border-outline-variant/20">
-              <div className="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                <div className="bg-secondary h-full rounded-full" style={{ width: '100%' }}></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => navigate('/report')}
-                  className="text-xs font-bold text-primary hover:underline"
-                >
-                  View Details
-                </button>
-                <button
-                  onClick={() => handleIsolateNode('Market')}
-                  className="text-xs text-on-surface-variant hover:text-error"
-                >
-                  {isolatedNodes.includes('Market') ? 'Unisolate' : 'Isolate Node'}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Security Agent Card */}
-          <div className="bg-white p-6 rounded-xl border border-outline-variant/30 custom-shadow flex flex-col justify-between border-l-4 border-l-error">
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <span className="p-2 bg-red-100 text-error rounded-lg material-symbols-outlined text-xl">
-                  shield_lock
-                </span>
-                <span className="text-xs font-bold text-error flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-error animate-ping"></span> 3 Alerts
-                </span>
-              </div>
-              <h4 className="font-bold text-on-surface text-base mb-1">Security Agent</h4>
-              <p className="text-xs text-on-surface-variant mb-4">Testing document prompt injection vectors.</p>
-            </div>
-            <div className="space-y-3 pt-3 border-t border-outline-variant/20">
-              <div className="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                <div className="bg-error h-full rounded-full" style={{ width: '65%' }}></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => navigate('/report')}
-                  className="text-xs font-bold text-error hover:underline"
-                >
-                  3 Alerts Found
-                </button>
-                <button
-                  onClick={() => handleIsolateNode('Security')}
-                  className="text-xs text-on-surface-variant hover:text-error"
-                >
-                  {isolatedNodes.includes('Security') ? 'Unisolate' : 'Isolate Node'}
-                </button>
-              </div>
+            {/* Fan-In Coordinator Node */}
+            <div className="w-16 h-16 bg-primary text-white rounded-2xl flex flex-col items-center justify-center font-bold text-[10px] shadow-lg">
+              <span className="material-symbols-outlined text-base">hub</span>
+              <span>Coordinator</span>
             </div>
           </div>
         </div>
-      </main>
+      </div>
+
+      {/* Node Progress & Status Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="bg-white p-5 rounded-2xl border border-outline-variant/40 custom-shadow space-y-2">
+          <div className="flex justify-between items-center text-xs font-bold text-on-surface">
+            <span>Financial Agent</span>
+            <span className="text-primary">82%</span>
+          </div>
+          <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+            <div className="bg-primary h-full rounded-full" style={{ width: '82%' }}></div>
+          </div>
+          <p className="text-[10px] text-on-surface-variant">Analyzing EMEA $14.8M revenue deficit</p>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-outline-variant/40 custom-shadow space-y-2">
+          <div className="flex justify-between items-center text-xs font-bold text-on-surface">
+            <span>Legal Agent</span>
+            <span className="text-purple-600">65%</span>
+          </div>
+          <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+            <div className="bg-purple-600 h-full rounded-full" style={{ width: '65%' }}></div>
+          </div>
+          <p className="text-[10px] text-on-surface-variant">Screening Section 4.2 liability clauses</p>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-outline-variant/40 custom-shadow space-y-2">
+          <div className="flex justify-between items-center text-xs font-bold text-on-surface">
+            <span>Market Agent</span>
+            <span className="text-amber-600">90%</span>
+          </div>
+          <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+            <div className="bg-amber-600 h-full rounded-full" style={{ width: '90%' }}></div>
+          </div>
+          <p className="text-[10px] text-on-surface-variant">Benchmarking regional competitor prices</p>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-outline-variant/40 custom-shadow space-y-2">
+          <div className="flex justify-between items-center text-xs font-bold text-on-surface">
+            <span>Security Agent</span>
+            <span className="text-error">95%</span>
+          </div>
+          <div className="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+            <div className="bg-error h-full rounded-full" style={{ width: '95%' }}></div>
+          </div>
+          <p className="text-[10px] text-on-surface-variant">Probing Appendix B prompt injection vulnerability</p>
+        </div>
+      </div>
     </div>
   );
 }

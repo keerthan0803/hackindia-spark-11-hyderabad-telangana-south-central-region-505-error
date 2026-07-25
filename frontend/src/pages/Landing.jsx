@@ -5,6 +5,18 @@ export default function Landing() {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
 
+  const isAuthenticated = () => {
+    return !!(localStorage.getItem('token') || localStorage.getItem('user'));
+  };
+
+  const handleCtaClick = (targetPath) => {
+    if (isAuthenticated()) {
+      navigate(targetPath);
+    } else {
+      navigate('/login');
+    }
+  };
+
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
   };
@@ -51,14 +63,14 @@ export default function Landing() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <button
-              onClick={() => navigate('/processing')}
+              onClick={() => handleCtaClick('/processing')}
               className="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-xl font-bold shadow-lg hover:bg-on-primary-fixed-variant transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined">rocket_launch</span>
               Start New Audit
             </button>
             <button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => handleCtaClick('/dashboard')}
               className="w-full sm:w-auto px-8 py-4 bg-surface-container-high border border-outline-variant text-on-surface rounded-xl font-bold hover:bg-surface-variant transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined">dashboard</span>

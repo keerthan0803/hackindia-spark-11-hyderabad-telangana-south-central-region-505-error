@@ -6,16 +6,17 @@ function getAuthHeaders() {
 }
 
 export async function loginUser(email, password) {
-  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.detail || 'Login failed.');
+    throw new Error(errorData.message || errorData.detail || 'Login failed.');
   }
-  const data = await response.json();
+  const res = await response.json();
+  const data = res.data || res;
   if (data.token) {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
@@ -24,16 +25,36 @@ export async function loginUser(email, password) {
 }
 
 export async function signupUser(userData) {
-  const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.detail || 'Registration failed.');
+    throw new Error(errorData.message || errorData.detail || 'Registration failed.');
   }
-  const data = await response.json();
+  const res = await response.json();
+  const data = res.data || res;
+  if (data.token) {
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+  }
+  return data;
+}
+
+export async function googleAuthUser(credentialToken) {
+  const response = await fetch(`${API_BASE_URL}/api/v1/auth/google`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ credential: credentialToken }),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || errorData.detail || 'Google authentication failed.');
+  }
+  const res = await response.json();
+  const data = res.data || res;
   if (data.token) {
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
@@ -45,7 +66,7 @@ export async function runAudit(file) {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${API_BASE_URL}/audit`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/audit/run`, {
     method: 'POST',
     headers: {
       ...getAuthHeaders(),
@@ -55,18 +76,19 @@ export async function runAudit(file) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.detail || 'Audit execution failed.');
+    throw new Error(errorData.message || errorData.detail || 'Audit execution failed.');
   }
   return await response.json();
 }
 
 export async function fetchAudits() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/audits`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/history`, {
       headers: getAuthHeaders(),
     });
     if (!response.ok) return { audits: [] };
-    return await response.json();
+    const res = await response.json();
+    return res.data || res;
   } catch (err) {
     console.warn('Backend API unreachable, using cached state.', err);
     return { audits: [] };
@@ -74,17 +96,18 @@ export async function fetchAudits() {
 }
 
 export async function fetchAuditDetails(auditId) {
-  const response = await fetch(`${API_BASE_URL}/api/audits/${auditId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/history/${auditId}`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch audit details.');
   }
-  return await response.json();
+  const res = await response.json();
+  return res.data || res;
 }
 
 export async function deleteAudit(auditId) {
-  const response = await fetch(`${API_BASE_URL}/api/audits/${auditId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/audits/${auditId}`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
   });
@@ -93,18 +116,19 @@ export async function deleteAudit(auditId) {
 
 export async function fetchSettings() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/settings`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/settings`, {
       headers: getAuthHeaders(),
     });
     if (!response.ok) return null;
-    return await response.json();
+    const res = await response.json();
+    return res.data || res;
   } catch (err) {
     return null;
   }
 }
 
 export async function updateSettings(settingsData) {
-  const response = await fetch(`${API_BASE_URL}/api/settings`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/settings`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
