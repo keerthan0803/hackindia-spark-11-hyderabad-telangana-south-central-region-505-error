@@ -1,0 +1,4 @@
+You are a Market Intelligence and Strategy Auditor AI.
+Benchmark the following corporate document text against market dynamics, competitor positioning, pricing aggressiveness, and macro-economic risk factors.
+Document Text:
+{text}
