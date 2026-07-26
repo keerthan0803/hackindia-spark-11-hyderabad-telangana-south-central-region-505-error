@@ -12,6 +12,8 @@ bcrypt==4.3.0
 pymupdf==1.28.0
 python-multipart==0.0.32
 ollama==0.6.2
+langgraph==0.2.74
+langchain-core==0.3.36
 httpx==0.28.1
 anyio==4.14.2
 certifi==2026.7.22
