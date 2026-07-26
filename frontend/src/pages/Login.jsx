@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser, googleAuthUser } from '../services/api';
 
-const GOOGLE_CLIENT_ID = '307733103923-gj9trio9cijg9bd3ids1ilk57hg5rke9.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '307733103923-gj9trio9cijg9bd3ids1ilk57hg5rke9.apps.googleusercontent.com';
 
 export default function Login() {
   const navigate = useNavigate();
