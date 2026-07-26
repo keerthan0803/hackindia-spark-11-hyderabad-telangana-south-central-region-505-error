@@ -16,6 +16,7 @@ import AgentDetails from './pages/AgentDetails';
 import AuditHistory from './pages/AuditHistory';
 import Settings from './pages/Settings';
 import Help from './pages/Help';
+import Profile from './pages/Profile';
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/agent-details" element={<AgentDetails />} />
           <Route path="/history" element={<AuditHistory />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/help" element={<Help />} />
         </Route>
 

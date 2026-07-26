@@ -54,6 +54,7 @@ export default function AppLayout() {
     { label: 'Audit Reports', path: '/report', icon: 'analytics' },
     { label: 'Agent Analysis', path: '/agent-details', icon: 'smart_toy' },
     { label: 'Audit Logs', path: '/history', icon: 'history_edu' },
+    { label: 'My Profile', path: '/profile', icon: 'person' },
     { label: 'Settings', path: '/settings', icon: 'settings' },
     { label: 'Help Center', path: '/help', icon: 'help' },
   ];
@@ -93,10 +94,10 @@ export default function AppLayout() {
           </Link>
         </div>
 
-        {/* Dynamic Clickable User Profile Card -> Navigates to Profile / Settings */}
+        {/* Dynamic Clickable User Profile Card -> Navigates to Profile */}
         <div className="px-5 mb-6">
           <div
-            onClick={() => navigate('/settings')}
+            onClick={() => navigate('/profile')}
             className="flex items-center gap-3 p-3 bg-surface-container-highest rounded-xl border border-outline-variant/30 hover:border-primary/50 transition-all cursor-pointer group"
           >
             <div className="w-10 h-10 rounded-full overflow-hidden bg-primary-fixed border border-primary/40 shrink-0 flex items-center justify-center font-bold text-xs text-primary">
@@ -107,7 +108,7 @@ export default function AppLayout() {
                   src={avatar}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '';
+                    e.target.style.display = 'none';
                   }}
                 />
               ) : (
@@ -197,9 +198,9 @@ export default function AppLayout() {
             </Link>
             <div className="h-6 w-px bg-outline-variant/40 mx-1 hidden sm:block"></div>
 
-            {/* Dynamic Clickable Header Profile -> Navigates to Settings */}
+            {/* Dynamic Clickable Header Profile -> Navigates to Profile */}
             <div
-              onClick={() => navigate('/settings')}
+              onClick={() => navigate('/profile')}
               className="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity"
             >
               <span className="text-xs font-bold text-on-surface hidden sm:inline">{fullName}</span>
