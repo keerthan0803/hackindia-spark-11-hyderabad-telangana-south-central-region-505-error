@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: adversarial-corporate-auditor-backend
+    env: python
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_NAME
+        value: CorporateAuditorDB
+      - key: JWT_SECRET
+        value: super-secret-corporate-auditor-key-2026
